@@ -4,9 +4,24 @@ import { AppService } from './app.service';
 import { UsersModule } from './users/users.module';
 import { ProductsModule } from './products/products.module';
 import { AuthsModule } from './auths/auths.module';
+import {TypeOrmModule} from '@nestjs/typeorm';
+import { mysqlDataSourceConfig } from './config/data-source';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 
 @Module({
-  imports: [UsersModule, ProductsModule, AuthsModule],
+  imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+      load: [mysqlDataSourceConfig]
+    }),
+    TypeOrmModule.forRootAsync({
+      inject: [ConfigService],
+      useFactory: (configService: ConfigService) => configService.get('mysql'),
+    }),    
+    UsersModule, 
+    ProductsModule, 
+    AuthsModule,
+  ],
   controllers: [AppController],
   providers: [AppService],
 })
