@@ -4,9 +4,10 @@ import { AppService } from './app.service';
 import { UsersModule } from './users/users.module';
 import { ProductsModule } from './products/products.module';
 import { AuthsModule } from './auths/auths.module';
-import {TypeOrmModule} from '@nestjs/typeorm';
+import { TypeOrmModule } from '@nestjs/typeorm';
 import { mysqlDataSourceConfig } from './config/data-source';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { SeedModule } from './seeds/seed.module';
 
 @Module({
   imports: [
@@ -17,12 +18,13 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
     TypeOrmModule.forRootAsync({
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => configService.get('mysql'),
-    }),    
-    UsersModule, 
-    ProductsModule, 
+    }),
+    UsersModule,
+    ProductsModule,
     AuthsModule,
+    SeedModule,
   ],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule { }
