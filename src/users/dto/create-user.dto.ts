@@ -7,12 +7,7 @@ export class CreateUserDto {
     @IsEmail()
     email: string
 
-    @Matches(
-        /((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/,
-        {
-            message: 'The password must have a Uppercase, lowercase letter and a number'
-        }
-    )
+    @IsString()
     password: string
 
     @IsString()
