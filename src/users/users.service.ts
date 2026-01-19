@@ -36,4 +36,16 @@ export class UsersService {
   async remove(id: string) {
     return await this.userRepository.delete(id);
   }
+
+  async findByEmailWithPassword(email: string): Promise<User | null> {
+    return await this.userRepository
+      .createQueryBuilder('user')
+      .where('user.email = :email', { email })
+      .addSelect('user.password')
+      .getOne();
+  }
+
+  async findById(id: string): Promise<User | null> {
+    return await this.userRepository.findOneBy({ id });
+  }
 }
